@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="买了一块树莓派 4B 板子，2G 的内存，打算用来替换刷机和折腾都不是很方便的斐讯 N1 ，这里记录一下自己的折腾过程。 一、系统安装由于之前并没有折腾过树莓派，对于树莓派能用的系统也没有太多的了解，听说 64 位的系统比 32 位性能要更强，百度了一番找到了一个叫做 Debian-Pi 的系统，看中了它集成的 Web 管理页面和 Docker 以及 CeCOS-CaaS 的功能，这可以大幅降低部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派 4B 折腾记录">
+<meta property="og:url" content="http://example.com/2022/01/19/%E6%A0%91%E8%8E%93%E6%B4%BE4B%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="4285f4的博客">
+<meta property="og:description" content="买了一块树莓派 4B 板子，2G 的内存，打算用来替换刷机和折腾都不是很方便的斐讯 N1 ，这里记录一下自己的折腾过程。 一、系统安装由于之前并没有折腾过树莓派，对于树莓派能用的系统也没有太多的了解，听说 64 位的系统比 32 位性能要更强，百度了一番找到了一个叫做 Debian-Pi 的系统，看中了它集成的 Web 管理页面和 Docker 以及 CeCOS-CaaS 的功能，这可以大幅降低部">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-19T13:52:24.740Z">
+<meta property="article:modified_time" content="2022-01-19T14:03:31.366Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>树莓派 4B 折腾记录 - 4285f4的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="树莓派 4B 折腾记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-19 21:52" pubdate>
+        2022年1月19日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      100 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">树莓派 4B 折腾记录</h1>
+            
+            <div class="markdown-body">
+              <p>买了一块树莓派 4B 板子，2G 的内存，打算用来替换刷机和折腾都不是很方便的斐讯 N1 ，这里记录一下自己的折腾过程。</p>
+<h3 id="一、系统安装"><a href="#一、系统安装" class="headerlink" title="一、系统安装"></a>一、系统安装</h3><p>由于之前并没有折腾过树莓派，对于树莓派能用的系统也没有太多的了解，听说 64 位的系统比 32 位性能要更强，百度了一番找到了一个叫做 Debian-Pi 的系统，看中了它集成的 Web 管理页面和 Docker 以及 CeCOS-CaaS 的功能，这可以大幅降低部署系统的操作难度。</p>
+<p>官方主页：<a target="_blank" rel="noopener" href="https://github.com/openfans-community-offical/Debian-Pi-Aarch64">Github 地址</a> <a target="_blank" rel="noopener" href="https://gitee.com/openfans-community/Debian-Pi-Aarch64">Gitee 地址</a></p>
+<p>根据需求下载自己需要的镜像版本，我使用的是  <code>2020-06-22-U4-Release</code>  的 plus++ 版本，即无桌面增强版。下载好镜像之后使用 <code>Win32DiskImager</code> 写入 SD 卡再通电启动即可，首次启动需要一定的时间初始化。我是直接网线连接的树莓派，当路由器里面能够看到 raspbian 这个设备 IP 的时候就可以尝试通过 Web 管理页面访问了。</p>
+<blockquote>
+<h6 id="系统初始化说明"><a href="#系统初始化说明" class="headerlink" title="系统初始化说明"></a>系统初始化说明</h6><p>系统开机将自动扩展根分区，然后会自动进行相关配置，待完成后方可正常使用，此过程中系统将 ** 自动重启 3 次 ** 。</p>
+<h6 id="账户及密码"><a href="#账户及密码" class="headerlink" title="账户及密码"></a>账户及密码</h6><p>系统默认账户：<strong>pi</strong> ，默认密码：<strong>raspberry</strong></p>
+<p>默认账户 pi 账户支持 ssh 登录，root 账户密码请登陆后使用命令 <strong>“sudo passwd root”</strong> 执行设置，</p>
+<p>或使用命令 <strong>“sudo -i”</strong> 来切换到 root 用户。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.Web 可视化管理界面<br>登录地址 https:<span class="hljs-regexp">//</span> 你树莓派的 IP 地址:<span class="hljs-number">9090</span><br>说明：请使用系统默认账户 pi 登录<br><br><span class="hljs-number">2</span>.WEB SSH 客户端 入口界面<br>登录地址 https:<span class="hljs-regexp">//</span> 你树莓派的 IP 地址:<span class="hljs-number">4200</span><br>说明：使用具有控制台登录权限的帐户登录，例如：pi<br><br><span class="hljs-number">3</span>.CecOS CaaS 容器云管理平台 登录界面<br>登录地址 https:<span class="hljs-regexp">//</span> 你树莓派的 IP 地址:<span class="hljs-number">8443</span><br>说明：默认管理账户 admin , 默认密码：password 。请登录后立即修改默认密码！！<br></code></pre></td></tr></table></figure>
+
+</blockquote>
+<h3 id="二、软件安装"><a href="#二、软件安装" class="headerlink" title="二、软件安装"></a>二、软件安装</h3><h4 id="1-Hassio"><a href="#1-Hassio" class="headerlink" title="1. Hassio"></a>1. Hassio</h4><p>这是 HomeAssistant 的一个版本，自带多个插件，比原版 HomeAssistant 更方便。我用来控制宿舍里的斐讯 TC1 插座。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">wget https://code.aliyun.com/neroxps/hassio_install/raw/master/install.sh<br>chmod +x install.sh<br>sudo ./install.sh<br></code></pre></td></tr></table></figure>
+
+<p>安装期间会提示以下类型信息，全部 y  或者按照如下操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs shell">(1). 是否将系统源切换为中科大 (USTC) 源（目前支持 Debian Ubuntu Raspbian 三款系统）<br>请输入 y or n（默认 yes):y<br><br>(2). 在你系统内找到 onehero 用户，是否将其添加至 docker 用户组。<br>请输入 yes 或者 no （默认 yes）：y<br>将 onehero 用户添加至 docker 用户组。<br><br>(3). 是否需要替换 docker 默认源？<br>请输入 yes 或者 no（默认：yes）：y<br><br>(4). 请选择你设备类型（默认：qemux86-64）<br>    [1]: intel-nuc: 英特尔的 nuc 小主机<br>    [2]: odroid-c2: 韩国 odroid-c2<br>    [3]: odroid-xu: 韩国 odroid-xu<br>    [4]: orangepi-prime: 香橙派<br>    [5]: qemuarm-64: 通用 arm 设备（例如斐讯 N1) 64 位系统<br>    [6]: qemux86-64: 通用 X86（普通的 PC 机电脑）64 位系统<br>    [7]: raspberrypi3-64: 树莓派三代 64 位系统<br>    [8]: raspberrypi4-64: 树莓派四代 64 位系统<br>    [9]: tinker: 华硕 tinker<br>输入数字 (1-9):<br>你选择了 8<br><span class="hljs-meta"> #</span><span class="bash"><span class="hljs-comment">###############################################################################</span></span><br><span class="hljs-meta"> #</span><span class="bash"> 1. 是否将系统源切换为中科大 (USTC) 源: 是</span><br><span class="hljs-meta"> #</span><span class="bash"> 2. 是否将用户添加至 Docker 用户组:   是 , 添加用户为 onehero</span> <br><span class="hljs-meta"> #</span><span class="bash"> 3. 是否将 Docker 源切换至国内源:     是</span><br><span class="hljs-meta"> #</span><span class="bash"> 4. 您的设备类型为:                   raspberrypi4-64</span><br><span class="hljs-meta"> #</span><span class="bash"><span class="hljs-comment">###############################################################################</span></span><br>请确认以上信息，继续请按任意键，如需修改请输入 Ctrl+C 结束任务重新执行脚本。<br></code></pre></td></tr></table></figure>
+
+<p>有关 Hassio 的内容还可以参考瀚思彼岸的这个帖子：<a target="_blank" rel="noopener" href="https://bbs.hassbian.com/thread-4520-1-1.html">https://bbs.hassbian.com/thread-4520-1-1.html</a></p>
+<h4 id="2-mqtt-服务器"><a href="#2-mqtt-服务器" class="headerlink" title="2. mqtt 服务器"></a>2. mqtt 服务器</h4><p>由于我的斐讯 TC1 刷了 Z 大的固件，所以需要用 mqtt 服务器接入 HomeAssistant 来间接控制。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt install mosquitto<br>sudo mosquitto_passwd -c /etc/mosquitto/pwfile 你的用户名<br></code></pre></td></tr></table></figure>
+
+<p>mosquitto 的 ip 地址就是树莓派的 IP ，端口默认是 1883 ，用户名和密码就是上一步刚设置的。</p>
+<p>如果无法设置用户名和密码，可以先把 mosquitto 进程关闭，设置好后再开启。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ps -ef | grep mosquitto<br><span class="hljs-built_in">kill</span> 上一步找出来的 pid<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-SMB-与-移动硬盘挂载"><a href="#3-SMB-与-移动硬盘挂载" class="headerlink" title="3. SMB 与 移动硬盘挂载"></a>3. SMB 与 移动硬盘挂载</h4><h5 id="3-1-安装与配置"><a href="#3-1-安装与配置" class="headerlink" title="3.1 安装与配置"></a>3.1 安装与配置</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt install samba<br>sudo nano /etc/samba/smb.conf<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> 添加以下内容</span><br>[storage]<br>   path = /home/storage # 你想要共享的目录<br>   available = yes<br>   browseable = yes<br>   public = no<br>   writable = yes<br><span class="hljs-meta">  </span><br><span class="hljs-meta">#</span><span class="bash"> 在 [global] 节点下添加下面这行可提升传输速度</span><br>aio read size = 0<br></code></pre></td></tr></table></figure>
+
+<p>为 SMB 用户添加密码，该用户必须是系统已有用户，按照提示输入密码即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">smbpasswd -a 你的用户名<br></code></pre></td></tr></table></figure>
+
+<p>重启 SMB 服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo service smbd restart<br></code></pre></td></tr></table></figure>
+
+<p>然后 Windows 系统在资源管理器的地址栏输入 <code>\\你的树莓派 IP 地址</code>并回车输入账号密码就能看到 SMB 共享目录了，还可以右键点击共享目录选择映射为网络驱动器。</p>
+<p>Android 端可以使用 Solid Explorer 、Mix Explorer 、X-plore 等软件来连接 SMB 共享目录，下文 FTP 与 Webdav 同样也可以。</p>
+<h5 id="3-2-挂载硬盘"><a href="#3-2-挂载硬盘" class="headerlink" title="3.2 挂载硬盘"></a>3.2 挂载硬盘</h5><p>由于手上刚好有两块升级笔记本电脑淘汰下来的 2.5 寸机械硬盘，本着不浪费的原则就买了两块硬盘盒打算把它们一起连接到树莓派当个 NAS 。</p>
+<blockquote>
+<h6 id="1-供电"><a href="#1-供电" class="headerlink" title="1. 供电"></a>1. 供电</h6><p>树莓派 4B 带不动两块 2.5 寸机械硬盘，我尝试了绿联的 USB Hub 同样不行，必须用带有额外供电的硬盘盒。如果你已经这样试过，可能会出现树莓派因为供电不足系统出错无法启动的情况，如果拔掉移动硬盘仍然无法正常启动请重新烧录系统镜像到 SD 卡安装系统。</p>
+<h5 id="2-移动硬盘格式"><a href="#2-移动硬盘格式" class="headerlink" title="2. 移动硬盘格式"></a>2. 移动硬盘格式</h5><p>强烈建议使用 ext4 格式，原来使用 ntfs 格式时发现读写速度跑不满，而且很占用系统资源。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 仅下次重启前有效</span><br>sudo fdisk -l # 查看并记下要挂载的硬盘或分区信息<br>sudo mount /dev/sdb /home/storage # /dev/sdb 是要挂载的硬盘或分区，/home/storage 是要挂载到的目录<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> 开机自动挂载</span><br>sudo blkid # 查看并记下要挂载的硬盘或分区相应的 UUID<br>sudo nano /etc/fstab<br><span class="hljs-meta">#</span><span class="bash"> 添加以下内容，有几个添加几个</span><br>UUID=eb151714-de83-364d-9c07-04265bacd19d /home/storage/N1 ext4 defaults 0 0<br>UUID=88b15d68-acc0-cb4b-bc4f-f969a1f1f0d6 /home/storage/N2 ext4 defaults 0 0<br><br>sudo mount -a # 挂载 /etc/fstab 中记录的所有硬盘或分区<br>chmod -R 777 /home/storage # 挂载完成后设置权限，实现对移动硬盘文件的可读可写。<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-FTP"><a href="#4-FTP" class="headerlink" title="4. FTP"></a>4. FTP</h4><p>因为安卓端几乎找不到支持 SMB V3 协议的文件管理器，所以局域网读写速度只有电脑的一半，用 FTP 可以跑满。</p>
+<h5 id="4-1-安装-vsftpd"><a href="#4-1-安装-vsftpd" class="headerlink" title="4.1 安装 vsftpd"></a>4.1 安装 vsftpd</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt install vsftpd<br></code></pre></td></tr></table></figure>
+
+<h5 id="4-2-备份-vsftpd-conf"><a href="#4-2-备份-vsftpd-conf" class="headerlink" title="4.2 备份 vsftpd.conf"></a>4.2 备份 vsftpd.conf</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bak<br></code></pre></td></tr></table></figure>
+
+<h5 id="4-3-修改-vsftpd-conf"><a href="#4-3-修改-vsftpd-conf" class="headerlink" title="4.3 修改 vsftpd.conf"></a>4.3 修改 vsftpd.conf</h5><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment"># 1. 与匿名者相关的信息，在这个案例中将匿名登录取消：</span><br><span class="hljs-attr">anonymous_enable</span>=<span class="hljs-literal">NO</span><br><br><span class="hljs-comment"># 2. 与实体用户相关的信息</span><br><span class="hljs-attr">local_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">write_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">local_umask</span>=<span class="hljs-number">022</span><br><span class="hljs-attr">local_root</span>=/home/storage<br><br><span class="hljs-attr">chroot_local_user</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">chroot_list_enable</span>=<span class="hljs-literal">NO</span><br><span class="hljs-attr">allow_writeable_chroot</span>=<span class="hljs-literal">YES</span><br><br><span class="hljs-comment"># 3. 与主机有关的设定</span><br><span class="hljs-attr">use_localtime</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">dirmessage_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">xferlog_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">connect_from_port_20</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">xferlog_std_format</span>=<span class="hljs-literal">YES</span><br><span class="hljs-comment"># pam_service_name=vsftpd</span><br><span class="hljs-attr">listen</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">tcp_wrappers</span>=<span class="hljs-literal">YES</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="4-4-重启-vsftpd"><a href="#4-4-重启-vsftpd" class="headerlink" title="4.4 重启 vsftpd"></a>4.4 重启 vsftpd</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo service vsftpd restart<br></code></pre></td></tr></table></figure>
+
+<p>Windows 系统同样可以在资源管理器的地址栏输入  <code>ftp:// 你的树莓派 IP</code> 来访问共享目录，浏览器也可以。</p>
+<h4 id="5-chfs"><a href="#5-chfs" class="headerlink" title="5. chfs"></a>5. chfs</h4><blockquote>
+<p>CuteHttpFileServer/chfs 是一个免费的、HTTP 协议的文件共享服务器，使用浏览器可以快速访问。它具有以下特点：</p>
+<ul>
+<li>单个文件，核心功能无需其他文件</li>
+<li>跨平台运行，支持主流平台：Windows，Linux 和 Mac</li>
+<li>界面简洁，简单易用</li>
+<li>支持扫码下载和手机端访问，手机与电脑之间共享文件非常方便</li>
+<li>支持账户权限控制和地址过滤</li>
+<li>支持快速分享文字片段</li>
+<li>支持 webdav 协议</li>
+</ul>
+<p>与其他常用文件共享方式（如 FTP，飞秋，网盘，自己建站）相比，具有使用简单，适用场景更多的优点，在个人使用以及共享给他人的场景中非常方便快捷。</p>
+</blockquote>
+<p>软件官网：<a target="_blank" rel="noopener" href="http://iscute.cn/chfs">http://iscute.cn/chfs</a></p>
+<h5 id="5-1-下载与配置"><a href="#5-1-下载与配置" class="headerlink" title="5.1 下载与配置"></a>5.1 下载与配置</h5><p>下载解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">wget http://iscute.cn/tar/chfs/2.0/chfs-linux-arm64-2.0.zip<br>unzip -o -d /home/apps/chfs chfs-linux-arm64-2.0.zip # /home/apps/chfs 改成你想解压到的路径<br></code></pre></td></tr></table></figure>
+
+<p>修改配置：</p>
+<p>我这里设置成了匿名用户只能</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">nano chfs.ini # 添加以下内容并保存，注意修改相关项的值<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment">#---------------------------------------</span><br><span class="hljs-comment"># 请注意：</span><br><span class="hljs-comment">#     1，如果不存在键或对应值为空，则不影响对应的配置</span><br><span class="hljs-comment">#     2，配置项的值，语法如同其对应的命令行参数</span><br><span class="hljs-comment">#---------------------------------------</span><br><br><br><span class="hljs-comment"># 监听端口</span><br><span class="hljs-attr">port</span>=<span class="hljs-number">5212</span><br><br><br><span class="hljs-comment"># 共享根目录，通过字符 &#x27;|&#x27; 进行分割</span><br><span class="hljs-comment"># 注意：</span><br><span class="hljs-comment">#     1，带空格的目录须用引号包住，如 path=&quot;c:\a uply name\folder&quot;</span><br><span class="hljs-comment">#     2，可配置多个 path，分别对应不同的目录</span><br><span class="hljs-attr">path</span>=/home/storage<br><br><br><span class="hljs-comment"># IP 地址过滤</span><br>allow=<br><br><span class="hljs-comment">#----------------- 账户控制规则 -------------------</span><br><span class="hljs-comment"># 访问权限分为四种：&quot;&quot;(不可访问)，&quot;R&quot;(只读)，&quot;W&quot;(读写)，&quot;D&quot;(写 + 删除)。</span><br><span class="hljs-comment"># 读权限指的是下载，写权限指上传、新建等操作，</span><br><span class="hljs-comment"># 删除权限是在写权限的基础上加上删除权限。</span><br><span class="hljs-comment"># 注意：该键值可以同时存在多个，你可以将每个用户的访问规则写成一个 rule，这样比较清晰，如：</span><br><span class="hljs-comment">#     rule=::</span><br><span class="hljs-comment">#     rule=root:123456:RW</span><br><span class="hljs-comment">#     rule=readonlyuser:123456:R</span><br><span class="hljs-comment"># rule=:::Video:r</span><br><span class="hljs-attr">rule</span>=::::r<br><span class="hljs-attr">rule</span>= 用户名:密码:rwd<br><br><br><span class="hljs-comment"># 用户操作日志存放目录，默认为空</span><br><span class="hljs-comment"># 如果赋值为空，表示禁用日志</span><br>log=<br><br><br><span class="hljs-comment"># 网页标题</span><br><span class="hljs-attr">html.title</span>= 文件共享<br><br><br><span class="hljs-comment"># 网页顶部的公告板。可以是文字，也可以是 HTML 标签，此时，需要适用一对``(反单引号，通过键盘左上角的 ESC 键下面的那个键输出) 来包住所有 HTML 标签。几个例子：</span><br><span class="hljs-comment">#     1,html.notice= 内部资料，请勿传播</span><br><span class="hljs-comment">#     2,html.notice=`&lt;img src=&quot;https://mat1.gtimg.com/pingjs/ext2020/qqindex2018/dist/img/qq_logo_2x.png&quot; width=&quot;100%&quot;/&gt;`</span><br><span class="hljs-comment">#     3,html.notice=`&lt;div style=&quot;background:black;color:white&quot;&gt;&lt;p&gt; 目录说明：&lt;/p&gt;&lt;ul&gt; 一期工程：一期工程资料目录 &lt;/ul&gt;&lt;ul&gt; 二期工程：二期工程资料目录 &lt;/ul&gt;&lt;/div&gt;`</span><br>html.notice=<br><br><br><span class="hljs-comment"># 是否启用图片预览 (网页中显示图片文件的缩略图)，true 表示开启，false 为关闭。默认开启</span><br><span class="hljs-attr">image.preview</span>=<span class="hljs-literal">true</span><br><br><br><span class="hljs-comment"># 下载目录策略。disable:禁用; leaf:仅限叶子目录的下载; enable 或其他值:不进行限制。</span><br><span class="hljs-comment"># 默认值为 enable</span><br>folder.download=<br><br><br><span class="hljs-comment">#-------------- 设置生效后启用 HTTPS，注意监听端口设置为 443-------------</span><br><span class="hljs-comment"># 指定 certificate 文件</span><br>ssl.cert=<br><span class="hljs-comment"># 指定 private key 文件</span><br>ssl.key=<br><br><br><span class="hljs-comment"># 设置会话的生命周期，单位：分钟，默认为 30 分钟</span><br>session.timeout=<br></code></pre></td></tr></table></figure>
+
+<p>启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">chfs --file=&quot;chfs.ini&quot; # chfs.ini 注意修改你的 ini 文件的路径<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="5-2-启动管理"><a href="#5-2-启动管理" class="headerlink" title="5.2 启动管理"></a>5.2 启动管理</h5><p>使用 systemd 管理：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo nano /etc/systemd/system/chfs.service # 添加以下内容并保存，注意修改相关项的值<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">[Unit]<br>Description=chfs<br>After=network.target syslog.target<br>Wants=network.target<br><br>[Service]<br>Type=simple<br>Restart=on-failure<br>RestartSec=5s<br><span class="hljs-meta">#</span><span class="bash"> 程序启动路径和 ini 文件路径请修改成自己的</span><br>ExecStart=/home/onehero/apps/chfs/chfs --file=&quot;/home/onehero/apps/chfs/chfs.ini&quot;<br><br>[Install]<br>WantedBy=multi-user.target<br></code></pre></td></tr></table></figure>
+
+<p>启动 chfs 并设置为开机自启：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl start chfs # 启动<br>sudo systemctl enable chfs # 开机自启<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="5-3-systemd-常用管理命令"><a href="#5-3-systemd-常用管理命令" class="headerlink" title="5.3 systemd 常用管理命令"></a>5.3 systemd 常用管理命令</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl daemon-reload  # 更新配置<br>systemctl start xxx      # 启动<br>systemctl restart xxx    # 重启<br>systemctl stop xxx       # 停止<br>systemctl enable xxx     # 开机自启<br>systemctl disable xxx    # 取消开机启动<br>systemctl is-enabled xxx # 判断是否设置为开机启动<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="6-FileBrowser"><a href="#6-FileBrowser" class="headerlink" title="6. FileBrowser"></a>6. FileBrowser</h4><p>软件介绍：<a target="_blank" rel="noopener" href="https://filebrowser.org/">官网</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl -fsSL https://filebrowser.xyz/get.sh | bash<br></code></pre></td></tr></table></figure>
+
+<p>安装教程参考另一位作者的教程：<a target="_blank" rel="noopener" href="https://www.mivm.cn/filebrowser/">教程地址</a></p>
+<p>使用 systemd 管理，将以下内容保存到 filebrowser.service，放到 /etc/systemd/sytem 目录下即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo nano /etc/systemd/system/filebrowser.service # 添加以下内容，注意修改相关项的值<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">[Unit]<br>Description=File Browser<br>After=network.target<br><br>[Service]<br><span class="hljs-meta">#</span><span class="bash"> 修改程序路径和数据库地址</span><br>ExecStart=/home/onehero/apps/filebrowser/filebrowser -d /home/onehero/apps/filebrowser/filebrowser.db<br><br>[Install]<br>WantedBy=multi-user.target<br></code></pre></td></tr></table></figure>
+
+<p>运行和开机自启：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl start filebrowser<br>sudo systemctl enable filebrowser<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="7-指示灯"><a href="#7-指示灯" class="headerlink" title="7. 指示灯"></a>7. 指示灯</h4><p>关闭读写状态指示灯和电源指示灯</p>
+<h5 id="7-1-临时生效"><a href="#7-1-临时生效" class="headerlink" title="7.1 临时生效"></a>7.1 临时生效</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 状态指示灯，0 为关，1 为开</span><br><span class="hljs-built_in">echo</span> 0 | sudo tee /sys/class/leds/led0/brightness<br><span class="hljs-built_in">echo</span> none | sudo tee /sys/class/leds/led0/trigger<br><br><span class="hljs-comment"># 电源指示灯，0 为关，1 为开</span><br><span class="hljs-built_in">echo</span> 0 | sudo tee /sys/class/leds/led1/brightness<br><span class="hljs-built_in">echo</span> none | sudo tee /sys/class/leds/led1/trigger<br></code></pre></td></tr></table></figure>
+
+<h5 id="7-2-永久生效"><a href="#7-2-永久生效" class="headerlink" title="7.2 永久生效"></a>7.2 永久生效</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo nano /etc/rc.local<br></code></pre></td></tr></table></figure>
+
+<p>将以下内容添加并保存：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 状态指示灯，0 为关，1 为开 </span><br><span class="hljs-built_in">echo</span> 0 | tee  /sys/class/leds/led0/brightness<br><span class="hljs-built_in">echo</span> none | tee  /sys/class/leds/led0/trigger<br><span class="hljs-comment"># 电源指示灯，0 为关，1 为开</span><br><span class="hljs-built_in">echo</span> none | tee  /sys/class/leds/led1/trigger<br><span class="hljs-built_in">echo</span> 0 | tee /sys/class/leds/led1/brightness<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="8-微力同步（VerySync）"><a href="#8-微力同步（VerySync）" class="headerlink" title="8. 微力同步（VerySync）"></a>8. 微力同步（VerySync）</h4><p>软件介绍：<a target="_blank" rel="noopener" href="http://www.verysync.com/">官网</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> (如果需要指定索引存放位置请在最后面添加 -d 路径 如 -d /data/verysync)</span><br>curl http://www.verysync.com/shell/verysync-linux-installer/go-installer.sh &gt; go-installer.sh<br>chmod +x go-installer.sh<br>sudo ./go-installer.sh<br></code></pre></td></tr></table></figure>
+
+<p>浏览器打开 <code>http:// 树莓派 IP:8886</code></p>
+<h4 id="9-Aria2-Pro"><a href="#9-Aria2-Pro" class="headerlink" title="9. Aria2 Pro"></a>9. Aria2 Pro</h4><p>这里使用 Aria2 Pro 的 Docker 镜像安装</p>
+<p>Github 地址：<a href="%5Bhttps://github.com/P3TERX/docker-aria2-pro%5D(https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL1AzVEVSWC9kb2NrZXItYXJpYTItcHJv)">地址</a></p>
+<p>Docker Hub：<a href="%5Bhttps://hub.docker.com/r/p3terx/aria2-pro%5D(https://p3terx.com/go/aHR0cHM6Ly9odWIuZG9ja2VyLmNvbS9yL3AzdGVyeC9hcmlhMi1wcm8=)">地址</a></p>
+<p>教程 Blog：<a target="_blank" rel="noopener" href="https://p3terx.com/archives/docker-aria2-pro.html">地址</a></p>
+<blockquote>
+<h2 id="镜像特点"><a href="#镜像特点" class="headerlink" title="镜像特点"></a>镜像特点</h2><ul>
+<li>使用 <a target="_blank" rel="noopener" href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL1AzVEVSWC9hcmlhMi5jb25m">Aria2 完美配置</a> 方案<ul>
+<li>BT 下载率高、速度快</li>
+<li>重启后不丢失任务进度、不重复下载</li>
+<li>删除正在下载的任务自动删除未完成的文件</li>
+<li>下载错误自动删除未完成的文件</li>
+<li>下载完成自动删除控制文件 (<code>.aria2</code>后缀名文件)</li>
+<li>下载完成自动删除种子文件 (<code>.torrent</code>后缀名文件)</li>
+<li>下载完成自动删除空目录</li>
+<li>BT 下载完成自动清除垃圾文件 (文件类型过滤功能)</li>
+<li>BT 下载完成自动清除小文件 (文件大小过滤功能)</li>
+<li>有一定的防版权投诉、防迅雷吸血效果</li>
+<li>更好的 PT 下载支持</li>
+</ul>
+</li>
+<li>使用 <a target="_blank" rel="noopener" href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL1AzVEVSWC9hcmlhMi1idWlsZGVy">aria2-builder</a> 项目最新静态编译二进制文件<ul>
+<li>多平台：<code>amd64</code>, <code>i386</code>, <code>arm64</code>, <code>armhf</code>（VPS、群辉、树莓派等常见平台完美支持）</li>
+<li>全功能：<code>Async DNS</code>, <code>BitTorrent</code>, <code>Firefox3 Cookie</code>, <code>GZip</code>, <code>HTTPS</code>, <code>Message Digest</code>, <code>Metalink</code>, <code>XML-RPC</code>, <code>SFTP</code></li>
+<li>单服务器线程数最大值无上限（已破解线程数限制）</li>
+<li>防掉线程优化</li>
+<li>最新依赖库，下载更安全、稳定、快速</li>
+<li>持续更新最新版本</li>
+</ul>
+</li>
+<li>支持与 <a target="_blank" rel="noopener" href="https://p3terx.com/go/aHR0cHM6Ly9yY2xvbmUub3JnLw==">RCLONE</a> 联动<ul>
+<li>自动上传 OneDrive 、Google Drive 等网盘</li>
+<li>百度网盘转存到其它网盘</li>
+<li>多网盘自由选择</li>
+</ul>
+</li>
+<li>支持新一代互联网协议 IPv6</li>
+<li>下载完成自动移动文件到指定目录（文件自动归档 / 分类）</li>
+<li>定时自动更新 BT tracker 列表（无感知、无重启），保持 BT 下载高速率</li>
+<li>用户文件权限自动配置功能</li>
+<li>配置文件持久化，支持使用 <a target="_blank" rel="noopener" href="https://p3terx.com/archives/docker-watchtower.html">watchtower</a> 更新容器。</li>
+<li>极简设计，专注下载，简单易用，少即是多。</li>
+</ul>
+</blockquote>
+<p>使用 Docker 安装，注意修改下面的 RPC 密钥和配置及数据路径以及默认下载路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> RPC_SECRET  RPC 密钥</span><br><span class="hljs-meta">#</span><span class="bash"> /home/onehero/apps/aria2-config  配置及数据路径</span><br><span class="hljs-meta">#</span><span class="bash"> /home/N1/download  下载路径</span><br><br>docker run -d \<br>     --name aria2-pro \<br>     --restart unless-stopped \<br>     --log-opt max-size=1m \<br>     --network host \<br>     -e PUID=$UID \<br>     -e PGID=$GID \<br>     -e RPC_SECRET=RPC 密钥 \<br>     -e RPC_PORT=6800 \<br>     -e LISTEN_PORT=6888 \<br>     -v /home/onehero/apps/aria2-config:/config \<br>     -v /home/N1/download:/downloads \<br>     p3terx/aria2-pro<br></code></pre></td></tr></table></figure>
+
+<p>使用搭建好的 AriaNG 连接管理：<a target="_blank" rel="noopener" href="https://sleele.gitee.io/ariang/">地址</a></p>
+<p>设置里面修改连接地址为树莓派 IP 再修改 RPC 密钥即可连接。</p>
+<h4 id="10-系统状态获取"><a href="#10-系统状态获取" class="headerlink" title="10. 系统状态获取"></a>10. 系统状态获取</h4><p>有时候想看看系统的 CPU 温度 、内存占用等信息，使用命令逐个获取不太方便，用脚本可以格式化输出</p>
+<p>以下代码来自：<a target="_blank" rel="noopener" href="https://shumeipai.nxez.com/2014/10/04/get-raspberry-the-current-status-and-data.html">树莓派实验室</a></p>
+<p>新建一个<code>.py</code>文件保存代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nano status.py<br></code></pre></td></tr></table></figure>
+
+<p>将以下代码添加并保存，由于原帖部分 CPU 温度无法正常获取，这里略作修改：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br> <br><span class="hljs-comment"># Return CPU temperature as a character string                                      </span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getCPUtemperature</span>():</span><br>    file = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;/sys/class/thermal/thermal_zone0/temp&quot;</span>)<br>    temp = <span class="hljs-built_in">round</span>(<span class="hljs-built_in">float</span>(file.read()) / <span class="hljs-number">1000</span>, <span class="hljs-number">1</span>)<br>    file.close()<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(temp)<br> <br><span class="hljs-comment"># Return RAM information (unit=kb) in a list                                       </span><br><span class="hljs-comment"># Index 0: total RAM                                                               </span><br><span class="hljs-comment"># Index 1: used RAM                                                                 </span><br><span class="hljs-comment"># Index 2: free RAM                                                                 </span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getRAMinfo</span>():</span><br>    p = os.popen(<span class="hljs-string">&#x27;free&#x27;</span>)<br>    i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>        i = i + <span class="hljs-number">1</span><br>        line = p.readline()<br>        <span class="hljs-keyword">if</span> i==<span class="hljs-number">2</span>:<br>            <span class="hljs-keyword">return</span>(line.split()[<span class="hljs-number">1</span>:<span class="hljs-number">4</span>])<br> <br><span class="hljs-comment"># Return % of CPU used by user as a character string                                </span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getCPUuse</span>():</span><br>    <span class="hljs-keyword">return</span>(<span class="hljs-built_in">str</span>(os.popen(<span class="hljs-string">&quot;top -n1 | awk &#x27;/Cpu\(s\):/ &#123;print $2&#125;&#x27;&quot;</span>).readline().strip()))<br> <br><span class="hljs-comment"># Return information about disk space as a list (unit included)                     </span><br><span class="hljs-comment"># Index 0: total disk space                                                         </span><br><span class="hljs-comment"># Index 1: used disk space                                                         </span><br><span class="hljs-comment"># Index 2: remaining disk space                                                     </span><br><span class="hljs-comment"># Index 3: percentage of disk used                                                  </span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getDiskSpace</span>():</span><br>    p = os.popen(<span class="hljs-string">&quot;df -h /&quot;</span>)<br>    i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>        i = i +<span class="hljs-number">1</span><br>        line = p.readline()<br>        <span class="hljs-keyword">if</span> i==<span class="hljs-number">2</span>:<br>            <span class="hljs-keyword">return</span>(line.split()[<span class="hljs-number">1</span>:<span class="hljs-number">5</span>])<br> <br> <br><span class="hljs-comment"># CPU informatiom</span><br>CPU_temp = getCPUtemperature()<br>CPU_usage = getCPUuse()<br> <br><span class="hljs-comment"># RAM information</span><br><span class="hljs-comment"># Output is in kb, here I convert it in Mb for readability</span><br>RAM_stats = getRAMinfo()<br>RAM_total = <span class="hljs-built_in">round</span>(<span class="hljs-built_in">int</span>(RAM_stats[<span class="hljs-number">0</span>]) / <span class="hljs-number">1000</span>,<span class="hljs-number">1</span>)<br>RAM_used = <span class="hljs-built_in">round</span>(<span class="hljs-built_in">int</span>(RAM_stats[<span class="hljs-number">1</span>]) / <span class="hljs-number">1000</span>,<span class="hljs-number">1</span>)<br>RAM_free = <span class="hljs-built_in">round</span>(<span class="hljs-built_in">int</span>(RAM_stats[<span class="hljs-number">2</span>]) / <span class="hljs-number">1000</span>,<span class="hljs-number">1</span>)<br> <br><span class="hljs-comment"># Disk information</span><br>DISK_stats = getDiskSpace()<br>DISK_total = DISK_stats[<span class="hljs-number">0</span>]<br>DISK_used = DISK_stats[<span class="hljs-number">1</span>]<br>DISK_perc = DISK_stats[<span class="hljs-number">3</span>]<br> <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;CPU Temperature = &#x27;</span>+CPU_temp)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;CPU Use = &#x27;</span>+CPU_usage)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;RAM Total = &#x27;</span>+<span class="hljs-built_in">str</span>(RAM_total)+<span class="hljs-string">&#x27; MB&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;RAM Used = &#x27;</span>+<span class="hljs-built_in">str</span>(RAM_used)+<span class="hljs-string">&#x27; MB&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;RAM Free = &#x27;</span>+<span class="hljs-built_in">str</span>(RAM_free)+<span class="hljs-string">&#x27; MB&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#x27;</span>)  <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;DISK Total Space = &#x27;</span>+<span class="hljs-built_in">str</span>(DISK_total)+<span class="hljs-string">&#x27;B&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;DISK Used Space = &#x27;</span>+<span class="hljs-built_in">str</span>(DISK_used)+<span class="hljs-string">&#x27;B&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;DISK Used Percentage = &#x27;</span>+<span class="hljs-built_in">str</span>(DISK_perc))<br></code></pre></td></tr></table></figure>
+
+<p>授予权限：<code>chmod +x status.py</code></p>
+<p>运行：<code>python status.py</code></p>
+<h4 id="11-备份-恢复系统"><a href="#11-备份-恢复系统" class="headerlink" title="11. 备份 / 恢复系统"></a>11. 备份 / 恢复系统</h4><p>定时备份系统是个好习惯，当系统出现问题的时候只需要将备份的镜像重新烧录到 SD 卡即可。</p>
+<p>参考教程：<a target="_blank" rel="noopener" href="https://post.smzdm.com/p/apzkgne7/">地址</a></p>
+<h5 id="11-1-备份时压缩："><a href="#11-1-备份时压缩：" class="headerlink" title="11.1 备份时压缩："></a>11.1 备份时压缩：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell">lsblk # 查看 / 分区和 /boot 分区所在，在这里是 mmcblk0<br><span class="hljs-meta">#</span><span class="bash"> status=progress 可以显示备份过程中的文件大小变化，如果系统提示不支持可以去掉</span><br><span class="hljs-meta">#</span><span class="bash"> 注意修改路径</span><br>sudo dd if=/dev/mmcblk0 status=progress | gzip &gt; /home/storage/N1/backup.gz<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> 以当前时间生成特定的备份文件</span><br>sudo dd if=/dev/mmcblk0 status=progress | gzip &gt; /home/storage/N1/&quot;debian-pi-aarch64_backup_&quot;$(date &quot;+%Y%m%d_%H-%M-%S&quot;)&quot;.gz&quot;<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> 系统不支持显示 status 属性的话，可以新开一个终端运行以下命令观察文件大小</span><br><span class="hljs-meta">#</span><span class="bash"> 每隔 1s 刷新一次</span><br>watch -d -n 1 ls -lh /home/N1/backup.gz<br></code></pre></td></tr></table></figure>
+
+<h5 id="11-2-备份时不压缩："><a href="#11-2-备份时不压缩：" class="headerlink" title="11.2 备份时不压缩："></a>11.2 备份时不压缩：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo dd if=/dev/mmcblk0 status=progress of=/home/storage/N1/backup.img bs=1M<br></code></pre></td></tr></table></figure>
+
+<h5 id="11-3-备份脚本"><a href="#11-3-备份脚本" class="headerlink" title="11.3 备份脚本"></a>11.3 备份脚本</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell">nano backup.sh<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> 添加以下内容并保存</span><br><span class="hljs-meta">#</span><span class="bash">!/bin/bash</span><br>path=&quot;/home/storage/N1/&quot; # 备份路径<br><br>prefix=&quot;debian-pi-aarch64_backup_&quot; # 文件名<br>suffix=&quot;.gz&quot;<br>curTime=$(date &quot;+%Y%m%d_%H-%M-%S&quot;) # 日期格式<br>fullName=&quot;$&#123;path&#125;$&#123;prefix&#125;$&#123;curTime&#125;$&#123;suffix&#125;&quot;<br>echo $fullName<br>sudo dd if=/dev/mmcblk0 status=progress | gzip &gt; $fullName<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> 赋予可执行权限</span><br>chmod +x backup.sh<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash"> 运行</span><br>sudo ./backup.sh<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/19/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
